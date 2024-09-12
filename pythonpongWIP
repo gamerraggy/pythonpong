@@ -1,0 +1,78 @@
+#import the pygame library and initisalise the game engine
+import pygame
+pygame.init()
+
+#open a new window, caption it "Pong"
+screen = pygame.display.set_mode((700,500))
+pygame.display.set_caption("pong")
+
+# heres the variable that runs our game loop
+doExit = False
+
+# the clock will used to control how fast the screen updates
+clock = pygame.time.Clock()
+
+#variables to hold paddle position
+#these go above the game loop
+p1x = 20
+p1y = 200
+p2x = 660
+p2y = 200
+
+#ball variables---------------------------------------------
+bx = 350 #xposition
+by = 250 #yposition
+bVx = 5 #x velocity (horizontal speed)
+bVy = 5 #y velocity (vertical speed)
+
+while not doExit: #GAME LOOP-------------------------
+    
+    # event queue stuff ---------------
+    clock.tick(60) #set the fps
+    
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            doExit = True
+       
+#game logic will go here --------------------------
+       
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_w]:
+        p1y-=5
+    if keys[pygame.K_s]:
+        p1y+=5
+     
+    if keys[pygame.K_o]:
+        p2y-=5
+    if keys[pygame.K_l]:
+        p2y+=5
+        
+    #ball movement
+        bx += bVx
+        by += bVy
+        
+        #reflect ball off sidewalls of screen
+        if bx < 0 or bx + 20 > 700:
+            bVx *= -1
+        
+     # render section -----------------------------------------
+     
+    screen.fill((0,0,128)) # wipes screen black 
+           
+    pygame.draw.rect(screen, (255, 255, 255), (p1x, p1y, 20, 100), 50)
+    
+    pygame.draw.circle(screen, (255, 255, 255), (bx, by), 15)
+    
+    pygame.draw.rect(screen, (255, 255, 255), (p2x, p2y, 20, 100), 10)
+           
+        # draws a line down the middle
+           
+    pygame.draw.line(screen, (255, 255, 255), [349, 0], [349, 500], 7)
+           
+           # updates the screen2
+           
+    pygame.display.flip() #flips memory to screen
+    
+    #end game loop ----------------------------------------
+           
+pygame.quit() # when game is done close down pygame
