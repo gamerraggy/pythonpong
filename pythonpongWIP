@@ -18,12 +18,22 @@ p1x = 20
 p1y = 200
 p2x = 660
 p2y = 200
-
+p1Score = 0
+p2Score = 0
 #ball variables---------------------------------------------
 bx = 350 #xposition
 by = 250 #yposition
 bVx = 5 #x velocity (horizontal speed)
 bVy = 5 #y velocity (vertical speed)
+
+#changes the score
+if bx < 0:
+    bVx *= -1
+    p2Score += 1
+    
+if bx > 679:
+    bVx *= -1
+    p1Score += 1 
 
 while not doExit: #GAME LOOP-------------------------
     
@@ -42,18 +52,29 @@ while not doExit: #GAME LOOP-------------------------
     if keys[pygame.K_s]:
         p1y+=5
      
-    if keys[pygame.K_o]:
+    if keys[pygame.K_UP]:
         p2y-=5
-    if keys[pygame.K_l]:
+    if keys[pygame.K_DOWN]:
         p2y+=5
         
     #ball movement
-        bx += bVx
-        by += bVy
-        
+    bx += bVx
+    by += bVy
+       
+    
         #reflect ball off sidewalls of screen
-        if bx < 0 or bx + 20 > 700:
-            bVx *= -1
+    if bx < 0 or bx + 20 > 700:
+        bVx *= -1
+        
+    if by < 0 or by + 20 > 500:
+        bVy *= -1
+        
+    #ball paddle reflection
+    if bx < p1x + 20 and by + 20 > p1y and by < p1y + 100:
+        bVx *= -1
+         
+    if bx > p2x and by + 15 > p2y and by-10 < p2y + 100:
+        bVx *= -1
         
      # render section -----------------------------------------
      
@@ -69,10 +90,19 @@ while not doExit: #GAME LOOP-------------------------
            
     pygame.draw.line(screen, (255, 255, 255), [349, 0], [349, 500], 7)
            
-           # updates the screen2
+           # updates the screen
            
     pygame.display.flip() #flips memory to screen
     
+    
+    
+    #display scores
+    font = pygame.font.Font(None, 74) #use default font
+    text = font.render(str(p1Score), 1, (255, 255, 255))
+    screen.blit(text, (250,10))
+    text = font.render(str(p2Score), 1, (255, 255, 255))
+    screen.blit(text, (420,10))
+
     #end game loop ----------------------------------------
            
 pygame.quit() # when game is done close down pygame
