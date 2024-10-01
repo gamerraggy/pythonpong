@@ -26,14 +26,6 @@ by = 250 #yposition
 bVx = 5 #x velocity (horizontal speed)
 bVy = 5 #y velocity (vertical speed)
 
-#changes the score
-if bx < 0:
-    bVx *= -1
-    p2Score += 1
-    
-if bx > 679:
-    bVx *= -1
-    p1Score += 1 
 
 while not doExit: #GAME LOOP-------------------------
     
@@ -72,10 +64,11 @@ while not doExit: #GAME LOOP-------------------------
     #ball paddle reflection
     if bx < p1x + 20 and by + 20 > p1y and by < p1y + 100:
         bVx *= -1
+       
          
     if bx > p2x and by + 15 > p2y and by-10 < p2y + 100:
         bVx *= -1
-        
+   
      # render section -----------------------------------------
      
     screen.fill((0,0,128)) # wipes screen black 
@@ -92,16 +85,27 @@ while not doExit: #GAME LOOP-------------------------
            
            # updates the screen
            
-    pygame.display.flip() #flips memory to screen
-    
-    
-    
-    #display scores
-    font = pygame.font.Font(None, 74) #use default font
+           #display scores
+    font = pygame.font.Font(None, 74) #use default fontwwwwwws
     text = font.render(str(p1Score), 1, (255, 255, 255))
     screen.blit(text, (250,10))
     text = font.render(str(p2Score), 1, (255, 255, 255))
     screen.blit(text, (420,10))
+           
+    #changes the score
+    if bx < 21:
+        bVx *= -1
+        p2Score += 1
+    
+    if bx > 679:
+        bVx *= -1
+        p1Score += 1
+    
+
+           
+    pygame.display.flip() #flips memory to screen
+    
+
 
     #end game loop ----------------------------------------
            
